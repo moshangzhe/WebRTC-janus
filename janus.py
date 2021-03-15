@@ -10,7 +10,6 @@ import aiohttp
 from aiortc import RTCPeerConnection, RTCSessionDescription, VideoStreamTrack
 from aiortc.contrib.media import MediaPlayer, MediaRecorder
 
-import cv2
 from av.frame import Frame
 import fractions
 from typing import Tuple

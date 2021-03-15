@@ -254,6 +254,72 @@ media: { audioRecv: false, videoRecv: false, audioSend: useAudio, videoSend: tru
     <!--...-->
 </div>
 ```
+## 树莓派推流客户端搭建
+#### 使用pip安装需要的包：
 
+`pip install aiortc`
+
+`pip install aiohttp`
+
+#### 编写客户端代码:
+这里使用aiortc官方实例修改:
+
+源码克隆:
+`git clone https://github.com/aiortc/aiortc.git`
+打开/examples/janus/janus.py：
+
+这里不使用命令行:删除
+```python
+parser = argparse.ArgumentParser(description="Janus")
+parser.add_argument("url", help="Janus root URL, e.g. http://localhost:8088/janus")
+parser.add_argument(
+    "--room",
+    type=int,
+    default=1234,
+    help="The video room ID to join (default: 1234).",
+),
+parser.add_argument("--play-from", help="Read the media from a file and sent it."),
+parser.add_argument("--record-to", help="Write received media to a file."),
+parser.add_argument("--verbose", "-v", action="count")
+args = parser.parse_args()
+
+if args.verbose:
+    logging.basicConfig(level=logging.DEBUG)
+
+# create signaling and peer connection
+session = JanusSession(args.url)
+
+# create media source
+if args.play_from:
+    player = MediaPlayer(args.play_from)
+else:
+    player = None
+
+# create media sink
+if args.record_to:
+    recorder = MediaRecorder(args.record_to)
+else:
+    recorder = None
+```
+改为:
+```python
+# 指定url
+session = JanusSession("http://1.15.156.106:8088/janus")
+player = None
+recorder = None
+room = 1234 # 指定房间号
+```
+在161行添加:
+```python
+player = MediaPlayer('/dev/video0', format='v4l2', options={
+    'video_size': '320x240'
+})
+```
+来调用摄像头。
+
+#### 运行客户端代码:
+`python3 janus.py`
+
+最后访问服务器IP即可查看视频流.
 
 
