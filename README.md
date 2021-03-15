@@ -226,7 +226,7 @@ certificates: {
 #### 4.运行Janus
 `/opt/janus/bin/janus --debug-level=5 --log-file=$HOME/janus-log`
 ### 修改Videoroom源码
-####1. 禁用videoroom摄像头
+#### 1. 禁用videoroom摄像头
 将videoroomtest.js 403行:
 ```javascript
 media: { audioRecv: false, videoRecv: true, audioSend: useAudio, videoSend: true }
@@ -235,3 +235,25 @@ media: { audioRecv: false, videoRecv: true, audioSend: useAudio, videoSend: true
 ```javascript
 media: { audioRecv: false, videoRecv: false, audioSend: useAudio, videoSend: true }
 ```
+#### 2.修改html显示样式
+94行开始修改
+```html
+<div class="row" style="margin-left:10px;margin-right:10px;margin-top:10px;margin-bottom:10px;"> <!--添加style自适应窗口大小-->
+	<div class="col-md-4" style="display: none;"><!--隐藏不需要的控件-->
+       <!--...-->
+    </div>
+    <div class="col-md-4"><!--此控件保留显示树莓派视频-->
+       <!--...-->
+    </div>
+    <div class="col-md-4" style="display: none;"><!--隐藏不需要的控件-->
+       <!--...-->
+    </div>
+    <div class="col-md-4" style="display: none;"><!--隐藏不需要的控件-->
+       <!--...-->
+    </div>
+    <!--...-->
+</div>
+```
+
+
+
