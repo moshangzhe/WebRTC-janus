@@ -225,4 +225,13 @@ certificates: {
 ```
 #### 4.运行Janus
 `/opt/janus/bin/janus --debug-level=5 --log-file=$HOME/janus-log`
-
+### 修改Videoroom源码
+####1. 禁用videoroom摄像头
+将videoroomtest.js 403行:
+```javascript
+media: { audioRecv: false, videoRecv: true, audioSend: useAudio, videoSend: true }
+```
+改为
+```javascript
+media: { audioRecv: false, videoRecv: false, audioSend: useAudio, videoSend: true }
+```
