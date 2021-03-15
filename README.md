@@ -2,8 +2,8 @@
 
 ## 服务器搭建
 服务器使用 janus 开源框架。
-###下载和编译Janus
-####1.依赖安装
+### 下载和编译Janus
+#### 1.依赖安装
 ```shell script
 sudo aptitude install libmicrohttpd-dev libjansson-dev libnice-dev \
     libssl1.0.1-dev libsrtp-dev libsofia-sip-ua-dev libglib2.3.4-dev \
@@ -18,7 +18,7 @@ sudo aptitude install doxygen graphviz
 # ffmpeg库 支持--enable-post-processing
 sudo aptitude install libavcodec-dev libavformat-dev libswscale-dev libavutil-dev
 ```
-####2.安装WebSocket
+#### 2.安装WebSocket
 ```shell script
 git clone https://github.com/warmcat/libwebsockets.git
 cd libwebsockets
@@ -29,7 +29,7 @@ cd build
 cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr -DCMAKE_C_FLAGS="-fpic" ..
 make && sudo make install
 ```
-####3.安装libsrtp
+#### 3.安装libsrtp
 ```shell script
 wget https://github.com/cisco/libsrtp/archive/v2.2.0.tar.gz
 tar xfv v2.2.0.tar.gz
@@ -37,7 +37,7 @@ cd libsrtp-2.2.0
 ./configure --prefix=/usr --enable-openssl
 make shared_library && sudo make install
 ```
-####4.安装libusrsctp
+#### 4.安装libusrsctp
 ```shell script
 git clone https://github.com/Kurento/libusrsctp.git
 cd libusrsctp
@@ -46,7 +46,7 @@ cd libusrsctp
 make
 sudo make install
 ```
-####5.安装libmicrohttpd
+#### 5.安装libmicrohttpd
 ```shell script
 wget https://ftp.gnu.org/gnu/libmicrohttpd/libmicrohttpd-0.9.71.tar.gz
 tar zxf libmicrohttpd-0.9.71.tar.gz
@@ -55,23 +55,23 @@ cd libmicrohttpd-0.9.71/
 make
 sudo make install
 ```
-###编译janus
-####1.下载源码
+### 编译janus
+#### 1.下载源码
 ```shell script
 git clone https://github.com/meetecho/janus-gateway.git
 git tag 查看当前的 tag,选择最新稳定的版本v0.10.4
 git  checkout v0.10.4
 sh autogen.sh
 ```
-####2.编译
+#### 2.编译
 ```shell script
 ./configure --prefix=/opt/janus --enable-websockets --enable-post-processing --enable-docs --enable-rest --enable-data-channels
 make
 sudo make install
 ```
-###配置和运行janus
-####1.配置nginx
-#####生成证书:
+### 配置和运行janus
+#### 1.配置nginx
+##### 生成证书:
 ```shell script
 mkdir -p ~/cert
 cd ~/cert
@@ -80,7 +80,7 @@ openssl genrsa -out key.pem 2048
 # 自签名证书
 openssl req -new -x509 -key key.pem -out cert.pem -days 1095
 ```
-#####安装nginx:
+##### 安装nginx:
 ```shell script
 #下载nginx 1.15.8版本
 wget http://nginx.org/download/nginx-1.15.8.tar.gz
@@ -97,7 +97,7 @@ make
 #安装
 sudo make install 
 ```
-#####修改nginx配置文件:
+##### 修改nginx配置文件:
 /usr/local/nginx/conf/nginx.conf
 ```shell script
 # HTTPS server
@@ -121,10 +121,10 @@ sudo make install
         }
     }
 ```
-#####启动nginx:
+##### 启动nginx:
 `sudo /usr/local/nginx/sbin/nginx`
-####2.安装和启动coturn
-#####安装：
+#### 2.安装和启动coturn
+##### 安装：
 ```shell script
 sudo apt-get install libssl-dev
 sudo apt-get install libevent-dev
@@ -136,11 +136,11 @@ cd turnserver-4.5.0.7
 make 
 sudo make install
 ```
-#####启动：
+##### 启动：
 ```shell script
 sudo nohup turnserver -L 0.0.0.0 --min-port 30000 --max-port 60000  -a -u lqf:123456 -v -f -r nort.gov &
 ```
-####3.配置janus的jcfg文件
+#### 3.配置janus的jcfg文件
 要先把.sample后缀的文件拷贝成jcfg后缀
 ```shell script
 # 进到对应的目录
@@ -223,5 +223,6 @@ certificates: {
         #cert_pwd = "secretpassphrase"
 }
 ```
-###4.运行Janus
+#### 4.运行Janus
 `/opt/janus/bin/janus --debug-level=5 --log-file=$HOME/janus-log`
+
